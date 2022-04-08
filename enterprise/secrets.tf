@@ -1,7 +1,6 @@
 #----------------------------------------------------------
 # Enable secrets engines
 #----------------------------------------------------------
-
 # Enable kv-v2 secrets engine in the finance namespace
 resource "vault_mount" "kv-v2" {
   depends_on = [vault_namespace.finance]

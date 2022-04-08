@@ -1,7 +1,6 @@
 #---------------------
 # Create policies
 #---------------------
-
 # Create fpe-client policy in the root namespace
 resource "vault_policy" "fpe_client_policy" {
   name   = "fpe-client"

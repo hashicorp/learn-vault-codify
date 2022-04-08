@@ -50,7 +50,6 @@ resource "vault_namespace" "engineering" {
 #       training has childnamespace, 'secure'
 #           secure has childnamespace, 'vault_cloud' and 'boundary'
 #---------------------------------------------------------------
-
 resource "vault_namespace" "education" {
   path = "education"
 }
