@@ -16,22 +16,15 @@
 #-----------------------------------------------------------------------------------
 terraform {
   required_providers {
-    vault = "~> 2.12"
+    vault = "~> 3.7.0"
   }
 }
 
 #------------------------------------------------------------------------------
 # To leverage more than one namespace, define a vault provider per namespace
 #------------------------------------------------------------------------------
-provider "vault" {
-  alias = "finance"
-  namespace = "finance"
-}
 
-provider "vault" {
-  alias = "engineering"
-  namespace = "engineering"
-}
+provider "vault" {}
 
 #------------------------------------------------------------------------------
 # Create namespaces: finance, and engineering
@@ -54,40 +47,21 @@ resource "vault_namespace" "education" {
   path = "education"
 }
 
-provider "vault" {
-  alias = "education"
-  namespace = trimsuffix(vault_namespace.education.id, "/")
-}
 
 # Create a childnamespace, 'training' under 'education'
 resource "vault_namespace" "training" {
-  provider = vault.education
+  namespace = vault_namespace.education.path
   path = "training"
-}
-
-provider "vault" {
-  alias = "training"
-  namespace = trimsuffix(vault_namespace.training.id, "/")
 }
 
 # Create a childnamespace, 'vault_cloud' and 'boundary' under 'education/training'
 resource "vault_namespace" "vault_cloud" {
-  provider = vault.training
+  namespace = vault_namespace.training.path_fq
   path = "vault_cloud"
-}
-
-provider "vault" {
-  alias = "vault_cloud"
-  namespace = trimsuffix(vault_namespace.vault_cloud.id, "/")
 }
 
 # Create 'education/training/boundary' namespace
 resource "vault_namespace" "boundary" {
-  provider = vault.training
+  namespace = vault_namespace.training.path_fq
   path = "boundary"
-}
-
-provider "vault" {
-  alias = "boundary"
-  namespace = trimsuffix(vault_namespace.boundary.id, "/")
 }
