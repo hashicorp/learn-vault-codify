@@ -15,48 +15,42 @@ resource "vault_policy" "admin_policy" {
 
 # Create admin policy in the finance namespace
 resource "vault_policy" "admin_policy_finance" {
-  provider = vault.finance
-  depends_on = [vault_namespace.finance]
+  namespace = vault_namespace.finance.path
   name   = "admins"
   policy = file("policies/admin-policy.hcl")
 }
 
 # Create admin policy in the engineering namespace
 resource "vault_policy" "admin_policy_engineering" {
-  provider = vault.engineering
-  depends_on = [vault_namespace.engineering]
+  namespace = vault_namespace.engineering.path
   name   = "admins"
   policy = file("policies/admin-policy.hcl")
 }
 
 # Create admin policy in the education namespace
 resource "vault_policy" "admin_policy_education" {
-  provider = vault.education
-  depends_on = [vault_namespace.education]
+  namespace = vault_namespace.education.path
   name   = "admins"
   policy = file("policies/admin-policy.hcl")
 }
 
 # Create admin policy in the 'education/training' namespace
 resource "vault_policy" "admin_policy_training" {
-  provider = vault.training
-  depends_on = [vault_namespace.training]
+  namespace = vault_namespace.training.path_fq
   name   = "admins"
   policy = file("policies/admin-policy.hcl")
 }
 
 # Create admin policy in the 'education/training/vault_cloud' namespace
 resource "vault_policy" "admin_policy_vault_cloud" {
-  provider = vault.vault_cloud
-  depends_on = [vault_namespace.vault_cloud]
+  namespace = vault_namespace.vault_cloud.path_fq
   name   = "admins"
   policy = file("policies/admin-policy.hcl")
 }
 
 # Create admin policy in the 'education/training/boundary' namespace
 resource "vault_policy" "admin_policy_boundary" {
-  provider = vault.boundary
-  depends_on = [vault_namespace.boundary]
+  namespace = vault_namespace.boundary.path_fq
   name   = "admins"
   policy = file("policies/admin-policy.hcl")
 }

@@ -24,15 +24,15 @@ EOT
 #--------------------------------------------------------------------
 resource "vault_auth_backend" "approle" {
   depends_on = [vault_namespace.training]
-  provider   = vault.training
+  namespace = vault_namespace.training.path_fq
   type       = "approle"
 }
 
 # Create a role named, "test-role"
-resource "vault_approle_auth_backend_role" "tester" {
+resource "vault_approle_auth_backend_role" "test-role" {
   depends_on     = [vault_auth_backend.approle]
-  provider       = vault.training
   backend        = vault_auth_backend.approle.path
+  namespace = vault_namespace.training.path_fq
   role_name      = "test-role"
   token_policies = ["default", "admins"]
 }
